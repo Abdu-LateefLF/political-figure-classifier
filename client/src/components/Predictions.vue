@@ -15,7 +15,7 @@ defineProps<{
 
     <div
       v-if="results && results.length > 0"
-      class="flex justify-center overflow-x-auto space-x-4 py-2 w-full"
+      class="flex justify-center scroll-auto space-x-4 py-2 w-full"
     >
       <ResultsCard v-for="(res, index) in results" :key="index" :classification="res" />
     </div>

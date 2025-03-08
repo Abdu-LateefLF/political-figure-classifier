@@ -7,6 +7,7 @@ const emit = defineEmits(['classification-done'])
 const imageFile = ref<File | null>(null)
 const imageUrl = ref<string | null>(null)
 const isClassifying = ref(false)
+const errorMessage = ref<string | null>(null) // Add error message ref
 
 const handleDrop = (event: DragEvent) => {
   event.preventDefault()
@@ -39,13 +40,15 @@ const preventDefault = (event: Event) => event.preventDefault()
 const removeImage = () => {
   imageFile.value = null
   imageUrl.value = null
+  errorMessage.value = null // Clear the error message when removing the image
 }
 
 // Make a call to the server to attempt to classify the image
 const classifyImage = async () => {
   console.log('Classifying image...')
 
-  const url = 'http://localhost:3000/classify'
+  const url = 'http://18.225.56.162:8000/classify'
+  errorMessage.value = null // Clear any previous error message
 
   if (imageUrl.value) {
     isClassifying.value = true // Disable the button
@@ -59,7 +62,13 @@ const classifyImage = async () => {
       })
 
       if (!response.ok) {
-        console.error(`Error: ${response.status}`)
+        const errorData = await response.json() // Parse error JSON
+        if (errorData && errorData.error) {
+          errorMessage.value = errorData.error // Set the error message from the server
+        } else {
+          errorMessage.value = `Target is not clear in this image` // Generic message if server doesn't provide a specific one
+        }
+        return // Stop processing if there's an error
       }
 
       const data = (await response.json()) as Classification[]
@@ -68,6 +77,7 @@ const classifyImage = async () => {
       console.log(data)
     } catch (error) {
       console.error('Some issue occurred:', error)
+      errorMessage.value = `Target is not clear in this image` // Network error message
     } finally {
       isClassifying.value = false // Re-enable button
     }
@@ -81,7 +91,7 @@ const classifyImage = async () => {
   <div class="flex justify-center items-center my-6">
     <div>
       <div
-        class="relative border-2 border-dashed border-gray-400 rounded-xl p-4 flex flex-col items-center justify-center cursor-pointer bg-white shadow-lg hover:shadow-xl transition w-80 max-w-md h-48"
+        class="relative border-2 border-dashed border-gray-400 rounded-xl p-4 flex flex-col items-center justify-center cursor-pointer bg-white shadow-lg hover:shadow-xl transition w-full max-w-md h-48"
         @dragover="preventDefault"
         @dragenter="preventDefault"
         @drop="handleDrop"
@@ -94,7 +104,7 @@ const classifyImage = async () => {
           @change="handleFileChange"
         />
 
-        <label for="fileInput" class="w-full h-full flex flex-col items-center justify-center">
+        <label for="fileInput" class="h-full flex flex-col items-center justify-center">
           <div v-if="imageUrl" class="relative w-full h-full">
             <img
               :src="imageUrl"
@@ -118,6 +128,11 @@ const classifyImage = async () => {
             >
           </div>
         </label>
+      </div>
+
+      <!-- Error Message -->
+      <div v-if="errorMessage" class="text-red-500 mt-2 text-center">
+        {{ errorMessage }}
       </div>
 
       <div v-if="imageUrl" class="mt-4 w-full flex justify-center">
