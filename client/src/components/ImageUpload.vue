@@ -130,7 +130,6 @@ const classifyImage = async () => {
         </label>
       </div>
 
-      <!-- Error Message -->
       <div v-if="errorMessage" class="text-red-500 mt-2 text-center">
         {{ errorMessage }}
       </div>
@@ -138,10 +137,15 @@ const classifyImage = async () => {
       <div v-if="imageUrl" class="mt-4 w-full flex justify-center">
         <button
           @click="classifyImage"
-          class="w-40 py-2 px-4 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition"
+          class="w-40 py-2 px-4 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition flex items-center justify-center"
           :disabled="isClassifying"
+          :class="{ 'opacity-50 cursor-not-allowed': isClassifying }"
         >
-          Classify
+          <template v-if="isClassifying">
+            <i class="pi pi-spin pi-spinner mr-2"></i>
+            Processing...
+          </template>
+          <template v-else> Classify </template>
         </button>
       </div>
     </div>

@@ -10,7 +10,11 @@ defineProps<{
 <template>
   <div class="container mx-auto mt-8 px-4">
     <div class="flex justify-center w-full">
-      <h1 class="text-3xl font-bold text-gray-800">Predictions</h1>
+      <h1
+        class="text-lg font-semibold bg-gradient-to-r from-red-500 to-blue-500 bg-clip-text text-transparent"
+      >
+        Predictions
+      </h1>
     </div>
 
     <div
