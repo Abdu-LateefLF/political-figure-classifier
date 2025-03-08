@@ -25,4 +25,4 @@ def classify():
 # Run server
 if __name__ == "__main__":
     utils.load_artifacts()  # Load our model and label dict
-    app.run(port=3000)
+    app.run(host="0.0.0.0", port=10000)
