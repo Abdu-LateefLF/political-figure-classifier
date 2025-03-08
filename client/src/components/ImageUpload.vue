@@ -47,7 +47,7 @@ const removeImage = () => {
 const classifyImage = async () => {
   console.log('Classifying image...')
 
-  const url = 'https://18.225.56.162:443/classify'
+  const url = 'https://localhost:3000/classify'
   errorMessage.value = null // Clear any previous error message
 
   if (imageUrl.value) {
