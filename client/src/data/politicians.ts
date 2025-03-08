@@ -8,7 +8,7 @@ const politicians = [
   {
     name: 'Donald Trump',
     url: 'https://npr.brightspotcdn.com/dims3/default/strip/false/crop/4890x3260+0+0/resize/1100/quality/50/format/jpeg/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2Feb%2F26%2F3424469c4d29b63b0b2683c3a4f2%2Fap24161743821924.jpg',
-    fact: "45th U.S. President, known for his 'America First' policies.",
+    fact: "47th U.S. President, known for his 'America First' policies.",
   },
   {
     name: 'Justin Trudeau',
