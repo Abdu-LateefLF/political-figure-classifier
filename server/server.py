@@ -10,17 +10,20 @@ CORS(app)
 def hello():
     return 'hello'
 
-@app.route('/classify', methods=['GET', 'POST'])
+
+@app.route('/classify', methods=['POST'])
 def classify():
-    img_b64 = request.json['image_data']
+    if not request.is_json:
+        return jsonify({'error': 'Request must be JSON'}), 400
 
-    # Classify the image and return our results
-    res = jsonify(utils.classify_image(img_b64))
+    data = request.get_json()
+    img_b64 = data.get('image_data')
 
-    if not res:
-        return make_response(jsonify({'error': 'Image is unclear'}), 400)
+    if not img_b64:
+        return jsonify({'error': 'Missing image data'}), 400
 
-    return res
+    result = utils.classify_image(img_b64)
+    return jsonify(result)
 
 # Run server
 if __name__ == "__main__":
