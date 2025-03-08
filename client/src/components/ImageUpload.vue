@@ -47,7 +47,7 @@ const removeImage = () => {
 const classifyImage = async () => {
   console.log('Classifying image...')
 
-  const url = 'https://localhost:3000/classify'
+  const url = 'https://political-figure-classifier.onrender.com/classify'
   errorMessage.value = null // Clear any previous error message
 
   if (imageUrl.value) {
