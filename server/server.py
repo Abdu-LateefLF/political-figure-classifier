@@ -3,7 +3,7 @@ from flask_cors import CORS
 import utils
 
 app = Flask(__name__)
-CORS(app, resources={r"/classify": {"origins": "https://political-figure-classifier.vercel.app"}})
+CORS(app, resources={r"/classify": {"origins": "https://political-figure-classifier-a.vercel.app"}})
 
 @app.route('/', methods=['GET'])
 def hello():
