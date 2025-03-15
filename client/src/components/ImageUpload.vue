@@ -40,15 +40,14 @@ const preventDefault = (event: Event) => event.preventDefault()
 const removeImage = () => {
   imageFile.value = null
   imageUrl.value = null
-  errorMessage.value = null // Clear the error message when removing the image
+  errorMessage.value = null
 }
 
 // Make a call to the server to attempt to classify the image
 const classifyImage = async () => {
   console.log('Classifying image...')
 
-  const url =
-    'https://political-figure-classifier-c6a9cufwa2gmcyhn.canadacentral-01.azurewebsites.net/classify'
+  const url = 'https://political-figure-classifier.onrender.com/classify'
   errorMessage.value = null // Clear any previous error message
 
   if (imageUrl.value) {
@@ -62,23 +61,25 @@ const classifyImage = async () => {
         body: JSON.stringify({ image_data: imageUrl.value }), // Send base64 encoded image
       })
 
+      console.log('Text:' + (await response.text()))
+
       if (!response.ok) {
-        const errorData = await response.json() // Parse error JSON
+        const errorData = await response.json()
         if (errorData && errorData.error) {
-          errorMessage.value = errorData.error // Set the error message from the server
+          errorMessage.value = errorData.error
         } else {
-          errorMessage.value = `Target is not clear in this image` // Generic message if server doesn't provide a specific one
+          errorMessage.value = `Target is not clear in this image`
         }
-        return // Stop processing if there's an error
+        return
       }
 
       const data = (await response.json()) as Classification[]
-      emit('classification-done', data) // Emit
+      emit('classification-done', data)
 
       console.log(data)
     } catch (error) {
       console.error('Some issue occurred:', error)
-      errorMessage.value = `Target is not clear in this image` // Network error message
+      errorMessage.value = `Target is not clear in this image`
     } finally {
       isClassifying.value = false // Re-enable button
     }
