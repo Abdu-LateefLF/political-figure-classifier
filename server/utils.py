@@ -54,8 +54,8 @@ def get_cv2_img_from_b64(img_b64):
 
 # get the cropper image if possible
 def get_cropped_img(img_b64, img_path):
-    face_cascade = cv2.CascadeClassifier('../model/opencv/haarcascades/haarcascade_frontalface_default.xml')
-    eye_cascade = cv2.CascadeClassifier('../model/opencv/haarcascades/haarcascade_eye.xml')
+    face_cascade = cv2.CascadeClassifier('./cascades/haarcascade_frontalface_default.xml')
+    eye_cascade = cv2.CascadeClassifier('./cascades/haarcascade_eye.xml')
 
     # check if a file path or a base 64 encoded text was given
     if img_path:
