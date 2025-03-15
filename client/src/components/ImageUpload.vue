@@ -61,8 +61,6 @@ const classifyImage = async () => {
         body: JSON.stringify({ image_data: imageUrl.value }), // Send base64 encoded image
       })
 
-      console.log('Text:' + (await response.text()))
-
       if (!response.ok) {
         const errorData = await response.json()
         if (errorData && errorData.error) {
